@@ -7,6 +7,7 @@ from imageeditor import ImageEditor, Location
 
 class MainWindow(QWidget):
     imageEditor = ImageEditor()
+    locationIndex = 0
 
     def __init__(self, parent = None):
         super(MainWindow, self).__init__(parent)
@@ -41,6 +42,7 @@ class MainWindow(QWidget):
         self.connect(btnImageOpen, SIGNAL("clicked()"), self.onImageOpenClicked)
         self.connect(btnWaterOpen, SIGNAL("clicked()"), self.onWaterOpenClicked)
         self.connect(btnGenerate, SIGNAL("clicked()"), self.onGenerateClicked)
+        self.connect(comboLocation, SIGNAL("currentIndexChanged(int)"), self.onComboChanged)
 
     #定义槽函数
     @pyqtSlot()
@@ -57,8 +59,13 @@ class MainWindow(QWidget):
 
     @pyqtSlot()
     def onGenerateClicked(self):
-        self.imageEditor.makeMark(Location.RIGHTBUTTON)
+        self.imageEditor.makeMark(self.locationIndex)
         print("成功！")
+
+    @pyqtSlot()
+    def onComboChanged(self,index):
+        self.locationIndex = index
+        print(index)
 
 if __name__ == "__main__":
     App = QApplication(sys.argv)
